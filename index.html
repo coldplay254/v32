@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trendy Rammy</title>
+    <script>
+        // Proxy all requests to your VPS
+        async function proxyRequest(path, options = {}) {
+            const response = await fetch(`http://206.189.112.66${path}`, {
+                method: options.method || 'GET',
+                headers: options.headers || {},
+                body: options.body
+            });
+            return await response.text();
+        }
+
+        // Load content from VPS on page load
+        window.addEventListener('load', async function() {
+            try {
+                const content = await proxyRequest('/');
+                document.getElementById('content').innerHTML = content;
+            } catch (error) {
+                console.error('Proxy error:', error);
+            }
+        });
+    </script>
+</head>
+<body>
+    <div id="content">Loading...</div>
+</body>
+</html>
